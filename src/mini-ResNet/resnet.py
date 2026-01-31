@@ -87,7 +87,7 @@ def test(model, device, test_loader):
             data, target = data.to(device), target.to(device)
             output = model(data)
             test_loss += F.cross_entropy(output, target, reduction="sum").item()
-            pred = output.argmax(data=1, keepdim=True)
+            pred = output.argmax(dim=1, keepdim=True)
             correct += pred.eq(target.view_as(pred)).sum().item()
     test_loss /= len(test_loader.dataset)
     acc = 100.0 * correct / len(test_loader.dataset)
