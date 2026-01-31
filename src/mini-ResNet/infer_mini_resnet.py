@@ -1,6 +1,5 @@
 import argparse
 import json
-from pyexpat import model
 import numpy as np
 import torch
 import torch.nn as nn
@@ -33,7 +32,7 @@ class MiniResNet(nn.Module):
 
         # fully connected layers
         self.fc1 = nn.Linear(16 * 8 * 8, 128)
-        self.act3 = act()
+        self.act2 = act()
         self.fc2 = nn.Linear(128, num_classes)
 
     def forward(self, x):
@@ -57,7 +56,7 @@ class MiniResNet(nn.Module):
 
         # classifier
         out = out.view(out.size(0), -1)  # flatten
-        out = self.act3(self.fc1(out))
+        out = self.act2(self.fc1(out))
         out = self.fc2(out)
         return out
 
@@ -116,7 +115,7 @@ def main():
     model.pool2.register_forward_pre_hook(pre_hook("pool2_input"))
     
     model.fc1.register_forward_pre_hook(pre_hook("fc1_input"))
-    model.act3.register_forward_pre_hook(pre_hook("act3_input"))
+    model.act2.register_forward_pre_hook(pre_hook("act2_input"))
     model.fc2.register_forward_pre_hook(pre_hook("fc2_input"))
 
     model.eval()
