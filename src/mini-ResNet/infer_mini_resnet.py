@@ -15,7 +15,7 @@ class MiniResNet(nn.Module):
         # initial Convolution Layer
         self.conv1 = nn.Conv2d(3, 16, kernel_size=3, padding=1)
         self.act1 = act()
-        self.pool1 = nn.MaxPool2d(2, 2)  # Reduce 32 x 32 -> 16 x 16
+        self.pool1 = nn.AvgPool2d(2, 2)  # Reduce 32 x 32 -> 16 x 16
 
         # first residual block
         self.res1_conv1 = nn.Conv2d(16, 16, kernel_size=3, padding=1)
@@ -28,7 +28,7 @@ class MiniResNet(nn.Module):
         self.res2_act1 = act()
         self.res2_conv2 = nn.Conv2d(16, 16, kernel_size=3, padding=1)
         self.res2_act2 = act()  # after skip connection
-        self.pool2 = nn.MaxPool2d(2, 2)  # Reduce 16 x 16 -> 8 x 8
+        self.pool2 = nn.AvgPool2d(2, 2)  # Reduce 16 x 16 -> 8 x 8
 
         # fully connected layers
         self.fc1 = nn.Linear(16 * 8 * 8, 128)
