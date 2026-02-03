@@ -6,7 +6,6 @@ set -euo pipefail
 # 1           => quiet mode (only print the two totals at the end)
 VERBOSE_FLAG="${1:-0}"
 VALUES_DIR="${2:-y_yprime_examples}"
-ACTIVATIONS="${3:-gelu}"
 
 if [[ ! "$VERBOSE_FLAG" =~ ^[01]$ ]]; then
   echo "Usage: $0 [0|1] [values_dir] [\"activations list\"]" >&2
@@ -51,73 +50,43 @@ cleanup() { rm -rf -- "$TARGET_DIR"; }
 trap cleanup EXIT
 
 # ---------------- Preset values ----------------
-declare -A GELU_PRESET=(
-  [TABLE_SIZE]=70
-  [PRIVATE_VECTOR_SIZE]=10
-  [TABLE_PRIME_SIZE]=8
-  [PRIVATE_VECTOR_PRIME_SIZE]=2
-)
-declare -A SELU_PRESET=(
-  [TABLE_SIZE]=35
-  [PRIVATE_VECTOR_SIZE]=7
-  [TABLE_PRIME_SIZE]=6
-  [PRIVATE_VECTOR_PRIME_SIZE]=2
-)
-declare -A ELU_PRESET=(
-  [TABLE_SIZE]=36
-  [PRIVATE_VECTOR_SIZE]=6
-  [TABLE_PRIME_SIZE]=7
-  [PRIVATE_VECTOR_PRIME_SIZE]=2
-)
-declare -A SOFTMAX_PRESET=(
-  [TABLE_SIZE]=70
-  [PRIVATE_VECTOR_SIZE]=7
-  [TABLE_PRIME_SIZE]=11
-  [PRIVATE_VECTOR_PRIME_SIZE]=2
-)
-declare -A LAYERNORM_PRESET=(
-  [TABLE_SIZE]=88
+declare -A RELU_PRESET=(
+  [TABLE_SIZE]=4
   [PRIVATE_VECTOR_SIZE]=4
-  [TABLE_PRIME_SIZE]=23
+  [TABLE_PRIME_SIZE]=2
   [PRIVATE_VECTOR_PRIME_SIZE]=2
 )
 
 echo "Running table4 evaluations..."
 pushd "$CIRCUIT_DIR" >/dev/null
 
-# ---------------- Part 1 (Arithmetic Constraints) ----------------
-# Add any activations you want to loop over here:
-for act in $ACTIVATIONS; do  # e.g. "gelu elu selu softmax layernorm"
-  # pre-annotate the pairs file using add_interval_index.py  
-  python3 "$ZIP_DIR/add_interval_index.py" \
-    --pairs "$Y_YPRIME_VALUES_DIR_PATH/${act}_y_yprime.txt" \
-    --intervals "$LOOKUP_TABLE_DIR/${act}_intervals_ieee754.txt"
+python3 "$ZIP_DIR/add_interval_index.py" \
+    --pairs "$Y_YPRIME_VALUES_DIR_PATH/relu_y_yprime.txt" \
+    --intervals "$LOOKUP_TABLE_DIR/relu_intervals_ieee754.txt"
+echo
+  echo "Starting evaluations for activation: relu"
 
-  echo
-  echo "Starting evaluations for activation: $act"
+pairs_file="$Y_YPRIME_VALUES_DIR_PATH/relu_y_yprime.txt"
+if [[ ! -f "$pairs_file" ]]; then
+  echo "ERROR: Y/Y' pairs file not found: $pairs_file" >&2
+  exit 1
+fi
 
-  pairs_file="$Y_YPRIME_VALUES_DIR_PATH/${act}_y_yprime.txt"
-  if [[ ! -f "$pairs_file" ]]; then
-    echo "ERROR: Y/Y' pairs file not found: $pairs_file" >&2
-    exit 1
-  fi
-
-  readarray -t pair_lines < <(
+readarray -t pair_lines < <(
     grep -E '^[[:space:]]*(0[xX][0-9A-Fa-f]+|[0-9]+)[[:space:]]*,[[:space:]]*(0[xX][0-9A-Fa-f]+|[0-9]+)([[:space:]]*,[[:space:]]*(0[xX][0-9A-Fa-f]+|[0-9]+))?[[:space:]]*$' \
       "$pairs_file"
   )
-  instances="${#pair_lines[@]}"
+instances="${#pair_lines[@]}"
 
-  if [[ "$instances" -lt 1 ]]; then
+if [[ "$instances" -lt 1 ]]; then
     echo "ERROR: No valid Y/Y' lines found in $pairs_file" >&2
     exit 1
-  fi
+fi
+preset_name="RELU_PRESET"
+declare -n PRESET="$preset_name"
 
-  preset_name="${act^^}_PRESET"
-  declare -n PRESET="$preset_name"
-
-  python3 generate_config.py \
-    --preset "$act" \
+python3 generate_config.py \
+    --preset relu \
     --instances "$instances" \
     --mode table \
     --proving true \
@@ -125,68 +94,68 @@ for act in $ACTIVATIONS; do  # e.g. "gelu elu selu softmax layernorm"
     --table_prime_size "${PRESET[TABLE_PRIME_SIZE]}" \
     --values_dir "$Y_YPRIME_VALUES_DIR_NAME"
 
-  go run main.go config.go
+go run main.go config.go
 
-  # -------- Part 2 (Piecewise Polynomial Coefficients Lookup) --------
-  n_coeff=$(awk -v t="${PRESET[TABLE_SIZE]}" 'BEGIN{n=0;p=1;while(p<t){p*=2;n++}print n}')
-  n_prime=$(awk -v t="${PRESET[TABLE_PRIME_SIZE]}" 'BEGIN{n=0;p=1;while(p<t){p*=2;n++}print n}')
+# -------- Part 2 (Piecewise Polynomial Coefficients Lookup) --------
+n_coeff=$(awk -v t="${PRESET[TABLE_SIZE]}" 'BEGIN{n=0;p=1;while(p<t){p*=2;n++}print n}')
+n_prime=$(awk -v t="${PRESET[TABLE_PRIME_SIZE]}" 'BEGIN{n=0;p=1;while(p<t){p*=2;n++}print n}')
 
-  for ((idx=0; idx<instances; idx++)); do
-    line="${pair_lines[$idx]}"
-    IFS=',' read -r _y _yp _third <<<"$line"
-    third_raw="$(echo "${_third:-}" | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//')"
+for ((idx=0; idx<instances; idx++)); do
+  line="${pair_lines[$idx]}"
+  IFS=',' read -r _y _yp _third <<<"$line"
+  third_raw="$(echo "${_third:-}" | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//')"
 
-    if [[ -z "$third_raw" ]]; then
-      echo "ERROR: line $((idx+1)) has no 3rd field (block index)"; exit 1
-    fi
-    if [[ "$third_raw" =~ ^0[xX][0-9A-Fa-f]+$ ]]; then
-      third_dec=$(( third_raw ))
-    else
-      third_dec=$(( 10#$third_raw ))
-    fi
+  if [[ -z "$third_raw" ]]; then
+    echo "ERROR: line $((idx+1)) has no 3rd field (block index)"; exit 1
+  fi
+  if [[ "$third_raw" =~ ^0[xX][0-9A-Fa-f]+$ ]]; then
+    third_dec=$(( third_raw ))
+  else
+    third_dec=$(( 10#$third_raw ))
+  fi
 
-    interval_positions="${third_dec},$((third_dec + 1))"
-    s=${PRESET[PRIVATE_VECTOR_SIZE]}
-    start=$(( third_dec * s ))
-    end=$(( start + s - 1 ))
-    coeff_positions="$(seq -s, "$start" "$end")"
+  interval_positions="${third_dec},$((third_dec + 1))"
+  s=${PRESET[PRIVATE_VECTOR_SIZE]}
+  start=$(( third_dec * s ))
+  end=$(( start + s - 1 ))
+  coeff_positions="$(seq -s, "$start" "$end")"
 
-    run_i=$((idx+1))
+  run_i=$((idx+1))
 
-    echo
-    echo "[${act}] Coefficients lookup run ${run_i}/${instances}"
-    mkdir -p -- "$TARGET_DIR"
-    cp "$LOOKUP_TABLE_DIR/${act}_coefficients_ieee754.txt" \
-      "$TARGET_DIR/target_lookup_table.txt"
+  echo
+  echo "relu Coefficients lookup run ${run_i}/${instances}"
+  mkdir -p -- "$TARGET_DIR"
+  cp "$LOOKUP_TABLE_DIR/relu_coefficients_ieee754.txt" \
+    "$TARGET_DIR/target_lookup_table.txt"
 
-    pushd "$ZIP_DIR" >/dev/null
-    cargo run --release --example multi_lookup -- \
-      --n "$n_coeff" \
-      --m "${PRESET[PRIVATE_VECTOR_SIZE]}" \
-      --positions "$coeff_positions" \
-      --runs 1
-    popd >/dev/null
-    rm -rf -- "$TARGET_DIR"
+  pushd "$ZIP_DIR" >/dev/null
+  cargo run --release --example multi_lookup -- \
+    --n "$n_coeff" \
+    --m "${PRESET[PRIVATE_VECTOR_SIZE]}" \
+    --positions "$coeff_positions" \
+    --runs 1
+  popd >/dev/null
+  rm -rf -- "$TARGET_DIR"
 
-    echo
-    echo "[${act}] Intervals lookup run ${run_i}/${instances}"
-    mkdir -p -- "$TARGET_DIR"
-    cp "$LOOKUP_TABLE_DIR/${act}_intervals_ieee754.txt" \
-      "$TARGET_DIR/target_lookup_table.txt"
+  echo
+  echo "relu Intervals lookup run ${run_i}/${instances}"
+  mkdir -p -- "$TARGET_DIR"
+  cp "$LOOKUP_TABLE_DIR/relu_intervals_ieee754.txt" \
+    "$TARGET_DIR/target_lookup_table.txt"
 
-    pushd "$ZIP_DIR" >/dev/null
-    cargo run --release --example multi_lookup -- \
-      --n "$n_prime" \
-      --m "${PRESET[PRIVATE_VECTOR_PRIME_SIZE]}" \
-      --positions "$interval_positions" \
-      --runs 1
-    popd >/dev/null
-    rm -rf -- "$TARGET_DIR"
-  done
-
+  pushd "$ZIP_DIR" >/dev/null
+  cargo run --release --example multi_lookup -- \
+    --n "$n_prime" \
+    --m "${PRESET[PRIVATE_VECTOR_PRIME_SIZE]}" \
+    --positions "$interval_positions" \
+    --runs 1
+  popd >/dev/null
+  rm -rf -- "$TARGET_DIR"
 done
 
 popd >/dev/null
+
+# aba ya dekhi
 
 if [[ "$VERBOSE_FLAG" == "1" ]]; then
   exec 1>&3 2>&4

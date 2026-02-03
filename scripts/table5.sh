@@ -9,7 +9,7 @@ MiniResNet_DIR="$REPO_ROOT/src/mini-ResNet"
 LINEAR_DIR="$REPO_ROOT/src/proof_generation/ZIP_proof_generation/ZIP_circuit/circuit/linear"
 TIMES_FILE="$LINEAR_DIR/proof_times.txt" 
 rm -f "$TIMES_FILE"
-DEST="$REPO_ROOT/src/proof_generation/ZIP_proof_generation/ZIP_circuit/circuit/linear/lenet_output_add_mult"
+DEST="$REPO_ROOT/src/proof_generation/ZIP_proof_generation/ZIP_circuit/circuit/linear/mini_resnet_output_add_mult"
 
 pushd "$MiniResNet_DIR" >/dev/null
 
@@ -33,50 +33,30 @@ python act_ops.py --key act2_input
 echo "Proving ReLU activation"
 "$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act "relu"
 
-for act in gelu elu selu; do
-  python resnet.py 
-  python infer_mini_resnet.py
-
-  python act_ops.py --act "$act" --key act1_in
-  python act_ops.py --act "$act" --key act2_in
-  python act_ops.py --act "$act" --key act3_in
-  python act_ops.py --act "$act" --key act4_in
-
-  echo "Proving 1st activation, $act"
-  "$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_lenet_act1 "$act"
-
-  echo "Proving 2nd activation, $act"
-  "$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_lenet_act2 "$act"
-
-  echo "Proving 3rd activation, $act"
-  "$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_lenet_act3 "$act"
-
-  echo "Proving 4th activation, $act"
-  "$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_lenet_act4 "$act"
-done
-
 echo ""
 echo "==========================="
 echo "== Proving linear layers =="
 echo "==========================="
 
 # Linear layers
-rm -rf lenet_output
+rm -rf mini_resnet_output
 python conv1_ops.py
 python pool1_ops.py
-python conv2_ops.py
+python res1_conv1_ops.py
+python res1_conv2_ops.py
+python res2_conv1_ops.py
+python res2_conv2_ops.py
 python pool2_ops.py
 python fc1_ops.py
 python fc2_ops.py
-python fc3_ops.py
 
 CHUNK=60000
 
 rm -rf "$DEST"
 mkdir -p "$DEST/addition" "$DEST/multiplication"
 
-pushd "$LENET_DIR/lenet_output" >/dev/null
-
+pushd "$MiniResNet_DIR/mini_resnet_output" >/dev/null
+  
 split -d -a 5 -l "$CHUNK" --additional-suffix=.txt addition.txt       "$DEST/addition/addition_"
 split -d -a 5 -l "$CHUNK" --additional-suffix=.txt multiplication.txt "$DEST/multiplication/multiplication_"
 
