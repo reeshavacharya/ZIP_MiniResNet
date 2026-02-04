@@ -406,6 +406,23 @@ func main() {
 			Y_prime_ValSlice[i] = Yps[i]
 		}
 
+	case "relu":
+		// ReLU uses the same generic ZIP lookup circuit; we just
+		// load Y/Y' pairs from the relu-specific examples directory.
+		pairsPath := filepath.Join("../../../ZIP_lookup/examples", VALUES_DIR, "relu_y_yprime.txt")
+		Ys, Yps, thirds, err := loadPairsAndThirds(pairsPath, NUM_INSTANCES)
+		if err != nil {
+			log.Fatalf("failed to load Y/Y'/third triples: %v", err)
+		}
+		privateIndices_lookup, privateIndices_rangeProof, err = buildIndicesFromThirds(thirds)
+		if err != nil {
+			log.Fatalf("failed to build indices from thirds: %v", err)
+		}
+		for i := 0; i < NUM_INSTANCES; i++ {
+			Y_ValSlice[i] = Ys[i]
+			Y_prime_ValSlice[i] = Yps[i]
+		}
+
 	case "selu":
 		pairsPath := filepath.Join("../../../ZIP_lookup/examples", VALUES_DIR, "selu_y_yprime.txt")
 		Ys, Yps, thirds, err := loadPairsAndThirds(pairsPath, NUM_INSTANCES)

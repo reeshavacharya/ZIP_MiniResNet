@@ -30,8 +30,23 @@ python act_ops.py --key res2_act1_input
 python act_ops.py --key res2_act2_input
 python act_ops.py --key act2_input
 
-echo "Proving ReLU activation"
-"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act "relu"
+echo "Proving 1st activation"
+"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act_act1 "relu"
+
+echo "Proving 1st residual connections' 1st activation"
+"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act_res1_act1 "relu"
+
+echo "Proving 1st residual connections' 2nd activation"
+"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act_res1_act2 "relu"
+
+echo "Proving 2nd residual connections' 1st activation"
+"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act_res2_act1 "relu"
+
+echo "Proving 2nd residual connections' 2nd activation"
+"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act_res2_act2 "relu"
+
+echo "Proving 2nd activation"
+"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act_act2 "relu"
 
 echo ""
 echo "==========================="

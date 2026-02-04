@@ -23,8 +23,7 @@ def main():
     TARGET_ROOT = os.path.abspath(
         os.path.join(
             script_dir,
-            "..",
-            "..",
+            "..",  # src/
             "proof_generation",
             "ZIP_proof_generation",
             "ZIP_lookup",

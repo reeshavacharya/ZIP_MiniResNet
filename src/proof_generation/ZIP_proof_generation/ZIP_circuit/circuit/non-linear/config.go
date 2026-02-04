@@ -1,0 +1,17 @@
+package main
+
+const (
+	TABLE_SIZE = 8
+	PRIVATE_VECTOR_SIZE = 8
+	TABLE_PRIME_SIZE = 2
+	PRIVATE_VECTOR_PRIME_SIZE = 2
+	E_VALUE = 11
+	M_VALUE = 52
+	DELTA_VALUE = 0x3F826E978D4FDF3B
+	NUM_INSTANCES = 16384
+	EVAL_MODE = "table"
+	ACTIVATION = "relu"
+	PROVING = true
+	VALUES_DIR = "y_yprime_examples_mini_resnet_act_act1"
+	SIZE_VALUE = 16
+)

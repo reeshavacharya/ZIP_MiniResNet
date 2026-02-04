@@ -100,7 +100,7 @@ presets = {
         "M_VALUE": 52,
         "DELTA_VALUE": 0x3F826E978D4FDF3B,  # 0.009
     },
-    "melu": {"double-nonce": ((216, 256, 29)(236, 256, 296))},
+    # "melu": {"double-nonce": ((216, 256, 29)(236, 256, 296))},
 }
 
 params = presets[args.preset].copy()

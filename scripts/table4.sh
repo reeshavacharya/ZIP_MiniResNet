@@ -51,7 +51,11 @@ trap cleanup EXIT
 
 # ---------------- Preset values ----------------
 declare -A RELU_PRESET=(
-  [TABLE_SIZE]=4
+  # Must match the number of coefficients loaded from
+  # relu_coefficients_ieee754.txt. The Go circuit reports 8 entries,
+  # so TABLE_SIZE must be 8 here to stay consistent with config.go
+  # and the lookup tables.
+  [TABLE_SIZE]=8
   [PRIVATE_VECTOR_SIZE]=4
   [TABLE_PRIME_SIZE]=2
   [PRIVATE_VECTOR_PRIME_SIZE]=2
@@ -77,6 +81,16 @@ readarray -t pair_lines < <(
       "$pairs_file"
   )
 instances="${#pair_lines[@]}"
+
+# Optional cap on the number of instances to prove, to avoid
+# running an extremely large gnark circuit that may exhaust
+# memory. Set MAX_INSTANCES in the environment (e.g.
+#   MAX_INSTANCES=512 ./scripts/table4.sh ... )
+# If unset or non-positive, all instances are used.
+if [[ -n "${MAX_INSTANCES:-}" ]] && [[ "$MAX_INSTANCES" =~ ^[0-9]+$ ]] && [[ "$MAX_INSTANCES" -gt 0 ]] && [[ "$instances" -gt "$MAX_INSTANCES" ]]; then
+  instances="$MAX_INSTANCES"
+  pair_lines=("${pair_lines[@]:0:instances}")
+fi
 
 if [[ "$instances" -lt 1 ]]; then
     echo "ERROR: No valid Y/Y' lines found in $pairs_file" >&2
@@ -155,7 +169,6 @@ done
 
 popd >/dev/null
 
-# aba ya dekhi
 
 if [[ "$VERBOSE_FLAG" == "1" ]]; then
   exec 1>&3 2>&4
