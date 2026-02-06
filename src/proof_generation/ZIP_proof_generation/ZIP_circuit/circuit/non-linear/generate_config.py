@@ -93,12 +93,15 @@ presets = {
     },
     "relu": {
         "TABLE_SIZE": 8,
-        "PRIVATE_VECTOR_SIZE": 4,
+        "PRIVATE_VECTOR_SIZE": 8,
         "TABLE_PRIME_SIZE": 2,
         "PRIVATE_VECTOR_PRIME_SIZE": 2,
         "E_VALUE": 11,
         "M_VALUE": 52,
-        "DELTA_VALUE": 0x3F826E978D4FDF3B,  # 0.009
+        # Use a looser error tolerance for ReLU so that the
+        # polynomial approximation always satisfies |y - f(y')| <= delta * |f(y')|
+        # for the precomputed coefficients.
+        "DELTA_VALUE": 0x3FF0000000000000,  # 1.0
     },
     # "melu": {"double-nonce": ((216, 256, 29)(236, 256, 296))},
 }

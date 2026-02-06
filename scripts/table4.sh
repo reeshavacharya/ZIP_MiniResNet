@@ -49,15 +49,11 @@ mkdir -p "$CAULK_DIR/polys"
 cleanup() { rm -rf -- "$TARGET_DIR"; }
 trap cleanup EXIT
 
-# ---------------- Preset values ----------------
-declare -A RELU_PRESET=(
-  # Must match the number of coefficients loaded from
-  # relu_coefficients_ieee754.txt. The Go circuit reports 8 entries,
-  # so TABLE_SIZE must be 8 here to stay consistent with config.go
-  # and the lookup tables.
-  [TABLE_SIZE]=8
-  [PRIVATE_VECTOR_SIZE]=4
-  [TABLE_PRIME_SIZE]=2
+# ---------------- Preset values (GELU) ----------------
+declare -A GELU_PRESET=(
+  [TABLE_SIZE]=70
+  [PRIVATE_VECTOR_SIZE]=10
+  [TABLE_PRIME_SIZE]=8
   [PRIVATE_VECTOR_PRIME_SIZE]=2
 )
 
@@ -65,12 +61,12 @@ echo "Running table4 evaluations..."
 pushd "$CIRCUIT_DIR" >/dev/null
 
 python3 "$ZIP_DIR/add_interval_index.py" \
-    --pairs "$Y_YPRIME_VALUES_DIR_PATH/relu_y_yprime.txt" \
-    --intervals "$LOOKUP_TABLE_DIR/relu_intervals_ieee754.txt"
+    --pairs "$Y_YPRIME_VALUES_DIR_PATH/gelu_y_yprime.txt" \
+    --intervals "$LOOKUP_TABLE_DIR/gelu_intervals_ieee754.txt"
 echo
-  echo "Starting evaluations for activation: relu"
+  echo "Starting evaluations for activation: gelu"
 
-pairs_file="$Y_YPRIME_VALUES_DIR_PATH/relu_y_yprime.txt"
+pairs_file="$Y_YPRIME_VALUES_DIR_PATH/gelu_y_yprime.txt"
 if [[ ! -f "$pairs_file" ]]; then
   echo "ERROR: Y/Y' pairs file not found: $pairs_file" >&2
   exit 1
@@ -96,17 +92,15 @@ if [[ "$instances" -lt 1 ]]; then
     echo "ERROR: No valid Y/Y' lines found in $pairs_file" >&2
     exit 1
 fi
-preset_name="RELU_PRESET"
+preset_name="GELU_PRESET"
 declare -n PRESET="$preset_name"
 
 python3 generate_config.py \
-    --preset relu \
+    --preset gelu \
     --instances "$instances" \
     --mode table \
-    --proving true \
-    --table_size "${PRESET[TABLE_SIZE]}" \
-    --table_prime_size "${PRESET[TABLE_PRIME_SIZE]}" \
-    --values_dir "$Y_YPRIME_VALUES_DIR_NAME"
+  --proving "${ZIP_PROVING:-true}" \
+  --values_dir "$Y_YPRIME_VALUES_DIR_NAME"
 
 go run main.go config.go
 
@@ -137,9 +131,9 @@ for ((idx=0; idx<instances; idx++)); do
   run_i=$((idx+1))
 
   echo
-  echo "relu Coefficients lookup run ${run_i}/${instances}"
+  echo "gelu Coefficients lookup run ${run_i}/${instances}"
   mkdir -p -- "$TARGET_DIR"
-  cp "$LOOKUP_TABLE_DIR/relu_coefficients_ieee754.txt" \
+  cp "$LOOKUP_TABLE_DIR/gelu_coefficients_ieee754.txt" \
     "$TARGET_DIR/target_lookup_table.txt"
 
   pushd "$ZIP_DIR" >/dev/null
@@ -152,9 +146,9 @@ for ((idx=0; idx<instances; idx++)); do
   rm -rf -- "$TARGET_DIR"
 
   echo
-  echo "relu Intervals lookup run ${run_i}/${instances}"
+  echo "gelu Intervals lookup run ${run_i}/${instances}"
   mkdir -p -- "$TARGET_DIR"
-  cp "$LOOKUP_TABLE_DIR/relu_intervals_ieee754.txt" \
+  cp "$LOOKUP_TABLE_DIR/gelu_intervals_ieee754.txt" \
     "$TARGET_DIR/target_lookup_table.txt"
 
   pushd "$ZIP_DIR" >/dev/null

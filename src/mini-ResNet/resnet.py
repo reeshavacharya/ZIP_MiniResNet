@@ -11,29 +11,29 @@ torch.set_default_dtype(torch.float64)
 
 
 class MiniResNet(nn.Module):
-    def __init__(self, num_classes=10, act=nn.ReLU):
+    def __init__(self, num_classes=10):
         super(MiniResNet, self).__init__()
         # initial Convolution Layer
         self.conv1 = nn.Conv2d(3, 16, kernel_size=3, padding=1)
-        self.act1 = act()
+        self.act1 = nn.GELU(approximate="tanh")
         self.pool1 = nn.AvgPool2d(2, 2)  # Reduce 32 x 32 -> 16 x 16
 
         # first residual block
         self.res1_conv1 = nn.Conv2d(16, 16, kernel_size=3, padding=1)  
-        self.res1_act1 = act()
+        self.res1_act1 = nn.GELU(approximate="tanh")
         self.res1_conv2 = nn.Conv2d(16, 16, kernel_size=3, padding=1)
-        self.res1_act2 = act()  # after skip connection
+        self.res1_act2 = nn.GELU(approximate="tanh")  # after skip connection
 
         # second residual block
         self.res2_conv1 = nn.Conv2d(16, 16, kernel_size=3, padding=1)
-        self.res2_act1 = act()
+        self.res2_act1 = nn.GELU(approximate="tanh")
         self.res2_conv2 = nn.Conv2d(16, 16, kernel_size=3, padding=1)
-        self.res2_act2 = act()  # after skip connection
+        self.res2_act2 = nn.GELU(approximate="tanh")  # after skip connection
         self.pool2 = nn.AvgPool2d(2, 2)  # Reduce 16 x 16 -> 8 x 8
 
         # fully connected layers
         self.fc1 = nn.Linear(16 * 8 * 8, 128)
-        self.act2 = act()
+        self.act2 = nn.GELU(approximate="tanh")
         self.fc2 = nn.Linear(128, num_classes)
 
     def forward(self, x):
