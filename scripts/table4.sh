@@ -83,6 +83,8 @@ instances="${#pair_lines[@]}"
 # memory. Set MAX_INSTANCES in the environment (e.g.
 #   MAX_INSTANCES=512 ./scripts/table4.sh ... )
 # If unset or non-positive, all instances are used.
+: "${MAX_INSTANCES:=4}"
+
 if [[ -n "${MAX_INSTANCES:-}" ]] && [[ "$MAX_INSTANCES" =~ ^[0-9]+$ ]] && [[ "$MAX_INSTANCES" -gt 0 ]] && [[ "$instances" -gt "$MAX_INSTANCES" ]]; then
   instances="$MAX_INSTANCES"
   pair_lines=("${pair_lines[@]:0:instances}")

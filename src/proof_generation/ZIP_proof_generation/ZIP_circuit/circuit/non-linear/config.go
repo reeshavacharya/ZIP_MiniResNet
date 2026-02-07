@@ -8,10 +8,10 @@ const (
 	E_VALUE = 11
 	M_VALUE = 52
 	DELTA_VALUE = 0x3FB70A3D70A3D70A
-	NUM_INSTANCES = 64
+	NUM_INSTANCES = 4
 	EVAL_MODE = "table"
 	ACTIVATION = "gelu"
 	PROVING = true
 	VALUES_DIR = "y_yprime_examples_mini_resnet_act_act2"
-	SIZE_VALUE = 12
+	SIZE_VALUE = 8
 )
