@@ -33,25 +33,25 @@ python act_ops.py --key act2_input
 
 # Cap the number of activation instances proved per call to table4.sh
 # to avoid extremely large gnark circuits exhausting memory.
-: "${MAX_INSTANCES:=512}"
+: "${MAX_INSTANCES:=4}"
 
 echo "Proving 1st activation (MAX_INSTANCES=$MAX_INSTANCES)"
-"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act_act1 "relu"
+"$SCRIPT_DIR/table4.sh" 0 y_yprime_examples_mini_resnet_act_act1 "relu"
 
 echo "Proving 1st residual connections' 1st activation (MAX_INSTANCES=$MAX_INSTANCES)"
-"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act_res1_act1 "relu"
+"$SCRIPT_DIR/table4.sh" 0 y_yprime_examples_mini_resnet_act_res1_act1 "relu"
 
 echo "Proving 1st residual connections' 2nd activation (MAX_INSTANCES=$MAX_INSTANCES)"
-"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act_res1_act2 "relu"
+"$SCRIPT_DIR/table4.sh" 0 y_yprime_examples_mini_resnet_act_res1_act2 "relu"
 
 echo "Proving 2nd residual connections' 1st activation (MAX_INSTANCES=$MAX_INSTANCES)"
-"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act_res2_act1 "relu"
+"$SCRIPT_DIR/table4.sh" 0 y_yprime_examples_mini_resnet_act_res2_act1 "relu"
 
 echo "Proving 2nd residual connections' 2nd activation (MAX_INSTANCES=$MAX_INSTANCES)"
-"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act_res2_act2 "relu"
+"$SCRIPT_DIR/table4.sh" 0 y_yprime_examples_mini_resnet_act_res2_act2 "relu"
 
 echo "Proving 2nd activation (MAX_INSTANCES=$MAX_INSTANCES)"
-"$SCRIPT_DIR/table4.sh" 1 y_yprime_examples_mini_resnet_act_act2 "relu"
+"$SCRIPT_DIR/table4.sh" 0 y_yprime_examples_mini_resnet_act_act2 "relu"
 
 echo ""
 echo "==========================="

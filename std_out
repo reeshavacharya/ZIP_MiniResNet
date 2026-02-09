@@ -1,0 +1,632 @@
+
+Performance of ZIP on Mini_ResNet (precomputed model)
+
+==============================================================
+== Proving non-linear layers (activations): ReLU ==
+==============================================================
+Model parameters loaded successfully.
+Saved layer-by-layer inputs to 'mini_resnet_inference_layer_inputs.json'.
+[act1_input] act='gelu'  shape=(1, 16, 32, 32)  elements=16384
+[res1_act1_input] act='gelu'  shape=(1, 16, 16, 16)  elements=4096
+[res1_act2_input] act='gelu'  shape=(1, 16, 16, 16)  elements=4096
+[res2_act1_input] act='gelu'  shape=(1, 16, 16, 16)  elements=4096
+[res2_act2_input] act='gelu'  shape=(1, 16, 16, 16)  elements=4096
+[act2_input] act='gelu'  shape=(1, 128)  elements=128
+Proving 1st activation (MAX_INSTANCES=4)
+Running table4 evaluations...
+
+Starting evaluations for activation: gelu
+# Activation Functions (gelu): 4
+ZIP - Total number of R1CS constraints: 22354
+ZIP - Total number of PlonK constraints: 64611
+Proving time: 1.433 sec
+Verification time: 0.004 sec
+Proof size: 616 bytes
+Proof verified successfully using PLONK with float library!
+
+gelu Coefficients lookup run 1/4
+time to load powers = 329.582302ms
+Time to setup multi openings of table size 128 = 340.239506ms
+Time to load openings = 10.745624ms
+Time to generate commitment table = 18.235979ms
+positions = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Time to generate inputs = 3.595262ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 114.484034ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.18533ms 
+
+gelu Intervals lookup run 1/4
+time to load powers = 8.330764ms
+Time to setup multi openings of table size 8 = 8.748699ms
+Time to load openings = 11.18556ms
+Time to generate commitment table = 12.023664ms
+positions = [1, 2]
+Time to generate inputs = 1.097009ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.953029ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.594536ms 
+
+gelu Coefficients lookup run 2/4
+time to load powers = 8.190452ms
+Time to setup multi openings of table size 128 = 8.755474ms
+Time to load openings = 482.12µs
+Time to generate commitment table = 851.026µs
+positions = [40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+Time to generate inputs = 3.614607ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.228062ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.582872ms 
+
+gelu Intervals lookup run 2/4
+time to load powers = 8.056354ms
+Time to setup multi openings of table size 8 = 8.487699ms
+Time to load openings = 332.938µs
+Time to generate commitment table = 698.142µs
+positions = [4, 5]
+Time to generate inputs = 1.108533ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 38.18246ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.477131ms 
+
+gelu Coefficients lookup run 3/4
+time to load powers = 7.699811ms
+Time to setup multi openings of table size 128 = 8.144565ms
+Time to load openings = 367.299µs
+Time to generate commitment table = 725.379µs
+positions = [40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+Time to generate inputs = 3.596239ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 114.801676ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.659279ms 
+
+gelu Intervals lookup run 3/4
+time to load powers = 8.035123ms
+Time to setup multi openings of table size 8 = 8.44761ms
+Time to load openings = 348.302µs
+Time to generate commitment table = 719.303µs
+positions = [4, 5]
+Time to generate inputs = 1.106019ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.925791ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.555494ms 
+
+gelu Coefficients lookup run 4/4
+time to load powers = 7.665518ms
+Time to setup multi openings of table size 128 = 8.232426ms
+Time to load openings = 452.576µs
+Time to generate commitment table = 815.685µs
+positions = [40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+Time to generate inputs = 3.623757ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 114.53048ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.750493ms 
+
+gelu Intervals lookup run 4/4
+time to load powers = 8.128641ms
+Time to setup multi openings of table size 8 = 8.545459ms
+Time to load openings = 321.972µs
+Time to generate commitment table = 684.732µs
+positions = [4, 5]
+Time to generate inputs = 1.087441ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 38.100047ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.724582ms 
+
+*********************************************
+total proving time : 2.044677 sec
+total verification time: 0.256396 sec
+*********************************************
+
+Proving 1st residual connections' 1st activation (MAX_INSTANCES=4)
+Running table4 evaluations...
+
+Starting evaluations for activation: gelu
+# Activation Functions (gelu): 4
+ZIP - Total number of R1CS constraints: 22354
+ZIP - Total number of PlonK constraints: 64611
+Proving time: 1.406 sec
+Verification time: 0.004 sec
+Proof size: 616 bytes
+Proof verified successfully using PLONK with float library!
+
+gelu Coefficients lookup run 1/4
+time to load powers = 8.72635ms
+Time to setup multi openings of table size 128 = 9.260781ms
+Time to load openings = 377.775µs
+Time to generate commitment table = 735.926µs
+positions = [40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+Time to generate inputs = 3.630601ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.13608ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.81398ms 
+
+gelu Intervals lookup run 1/4
+time to load powers = 8.061872ms
+Time to setup multi openings of table size 8 = 8.476664ms
+Time to load openings = 343.273µs
+Time to generate commitment table = 728.732µs
+positions = [4, 5]
+Time to generate inputs = 1.121175ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 38.103958ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.48188ms 
+
+gelu Coefficients lookup run 2/4
+time to load powers = 8.363729ms
+Time to setup multi openings of table size 128 = 8.786134ms
+Time to load openings = 493.993µs
+Time to generate commitment table = 841.457µs
+positions = [40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+Time to generate inputs = 3.561458ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.054504ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.836538ms 
+
+gelu Intervals lookup run 2/4
+time to load powers = 8.404098ms
+Time to setup multi openings of table size 8 = 8.830415ms
+Time to load openings = 323.368µs
+Time to generate commitment table = 696.395µs
+positions = [4, 5]
+Time to generate inputs = 1.094076ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.919365ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.31391ms 
+
+gelu Coefficients lookup run 3/4
+time to load powers = 8.012424ms
+Time to setup multi openings of table size 128 = 8.439997ms
+Time to load openings = 358.15µs
+Time to generate commitment table = 707.29µs
+positions = [40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+Time to generate inputs = 3.604201ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 114.567076ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.793795ms 
+
+gelu Intervals lookup run 3/4
+time to load powers = 8.484766ms
+Time to setup multi openings of table size 8 = 8.903958ms
+Time to load openings = 496.018µs
+Time to generate commitment table = 1.028844ms
+positions = [4, 5]
+Time to generate inputs = 1.102247ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.853714ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.416228ms 
+
+gelu Coefficients lookup run 4/4
+time to load powers = 7.866035ms
+Time to setup multi openings of table size 128 = 8.28851ms
+Time to load openings = 357.312µs
+Time to generate commitment table = 694.44µs
+positions = [40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+Time to generate inputs = 3.651833ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.887092ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.855256ms 
+
+gelu Intervals lookup run 4/4
+time to load powers = 8.413038ms
+Time to setup multi openings of table size 8 = 8.948448ms
+Time to load openings = 355.147µs
+Time to generate commitment table = 720.421µs
+positions = [4, 5]
+Time to generate inputs = 1.103784ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 38.088942ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.691476ms 
+
+*********************************************
+total proving time : 2.018851 sec
+total verification time: 0.256980 sec
+*********************************************
+
+Proving 1st residual connections' 2nd activation (MAX_INSTANCES=4)
+Running table4 evaluations...
+
+Starting evaluations for activation: gelu
+# Activation Functions (gelu): 4
+ZIP - Total number of R1CS constraints: 22354
+ZIP - Total number of PlonK constraints: 64611
+Proving time: 1.413 sec
+Verification time: 0.004 sec
+Proof size: 616 bytes
+Proof verified successfully using PLONK with float library!
+
+gelu Coefficients lookup run 1/4
+time to load powers = 8.033098ms
+Time to setup multi openings of table size 128 = 8.576957ms
+Time to load openings = 461.307µs
+Time to generate commitment table = 834.403µs
+positions = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Time to generate inputs = 3.577172ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.622111ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.839611ms 
+
+gelu Intervals lookup run 1/4
+time to load powers = 7.58974ms
+Time to setup multi openings of table size 8 = 7.99664ms
+Time to load openings = 430.996µs
+Time to generate commitment table = 906.48µs
+positions = [1, 2]
+Time to generate inputs = 1.110909ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.960642ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 32.176948ms 
+
+gelu Coefficients lookup run 2/4
+time to load powers = 8.170687ms
+Time to setup multi openings of table size 128 = 8.793468ms
+Time to load openings = 385.807µs
+Time to generate commitment table = 748.149µs
+positions = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Time to generate inputs = 3.602175ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 116.178404ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.962393ms 
+
+gelu Intervals lookup run 2/4
+time to load powers = 7.61153ms
+Time to setup multi openings of table size 8 = 8.027859ms
+Time to load openings = 320.017µs
+Time to generate commitment table = 878.194µs
+positions = [1, 2]
+Time to generate inputs = 1.102737ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.900996ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.790512ms 
+
+gelu Coefficients lookup run 3/4
+time to load powers = 7.965979ms
+Time to setup multi openings of table size 128 = 8.539173ms
+Time to load openings = 376.03µs
+Time to generate commitment table = 777.133µs
+positions = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Time to generate inputs = 3.590512ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.583348ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.227166ms 
+
+gelu Intervals lookup run 3/4
+time to load powers = 7.967376ms
+Time to setup multi openings of table size 8 = 8.386777ms
+Time to load openings = 328.607µs
+Time to generate commitment table = 731.456µs
+positions = [1, 2]
+Time to generate inputs = 1.091771ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 38.203832ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.82697ms 
+
+gelu Coefficients lookup run 4/4
+time to load powers = 8.116558ms
+Time to setup multi openings of table size 128 = 8.581078ms
+Time to load openings = 478.349µs
+Time to generate commitment table = 973.529µs
+positions = [20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+Time to generate inputs = 3.563064ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.465385ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 32.319636ms 
+
+gelu Intervals lookup run 4/4
+time to load powers = 8.131365ms
+Time to setup multi openings of table size 8 = 8.549999ms
+Time to load openings = 302.067µs
+Time to generate commitment table = 681.17µs
+positions = [2, 3]
+Time to generate inputs = 1.122782ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.9568ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.578402ms 
+
+*********************************************
+total proving time : 2.027799 sec
+total verification time: 0.258682 sec
+*********************************************
+
+Proving 2nd residual connections' 1st activation (MAX_INSTANCES=4)
+Running table4 evaluations...
+
+Starting evaluations for activation: gelu
+# Activation Functions (gelu): 4
+ZIP - Total number of R1CS constraints: 22354
+ZIP - Total number of PlonK constraints: 64611
+Proving time: 1.483 sec
+Verification time: 0.003 sec
+Proof size: 616 bytes
+Proof verified successfully using PLONK with float library!
+
+gelu Coefficients lookup run 1/4
+time to load powers = 8.057542ms
+Time to setup multi openings of table size 128 = 8.701417ms
+Time to load openings = 425.827µs
+Time to generate commitment table = 827.908µs
+positions = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Time to generate inputs = 3.66196ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.047171ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.372647ms 
+
+gelu Intervals lookup run 1/4
+time to load powers = 8.138ms
+Time to setup multi openings of table size 8 = 8.735708ms
+Time to load openings = 326.442µs
+Time to generate commitment table = 675.862µs
+positions = [1, 2]
+Time to generate inputs = 1.115099ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 38.039284ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.733381ms 
+
+gelu Coefficients lookup run 2/4
+time to load powers = 8.048533ms
+Time to setup multi openings of table size 128 = 8.467306ms
+Time to load openings = 355.007µs
+Time to generate commitment table = 737.113µs
+positions = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Time to generate inputs = 3.596658ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 114.670513ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.21634ms 
+
+gelu Intervals lookup run 2/4
+time to load powers = 8.437553ms
+Time to setup multi openings of table size 8 = 8.968353ms
+Time to load openings = 407.04µs
+Time to generate commitment table = 801.927µs
+positions = [1, 2]
+Time to generate inputs = 1.124597ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.923486ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 32.220181ms 
+
+gelu Coefficients lookup run 3/4
+time to load powers = 8.291304ms
+Time to setup multi openings of table size 128 = 8.714337ms
+Time to load openings = 413.535µs
+Time to generate commitment table = 758.904µs
+positions = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Time to generate inputs = 3.616213ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 114.881366ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.883961ms 
+
+gelu Intervals lookup run 3/4
+time to load powers = 7.847457ms
+Time to setup multi openings of table size 8 = 8.233824ms
+Time to load openings = 310.169µs
+Time to generate commitment table = 591.702µs
+positions = [1, 2]
+Time to generate inputs = 1.111117ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 38.038655ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.832069ms 
+
+gelu Coefficients lookup run 4/4
+time to load powers = 8.439159ms
+Time to setup multi openings of table size 128 = 9.13779ms
+Time to load openings = 368.347µs
+Time to generate commitment table = 703.03µs
+positions = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Time to generate inputs = 3.595541ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.469925ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 32.005347ms 
+
+gelu Intervals lookup run 4/4
+time to load powers = 7.916112ms
+Time to setup multi openings of table size 8 = 8.4166ms
+Time to load openings = 293.057µs
+Time to generate commitment table = 674.604µs
+positions = [1, 2]
+Time to generate inputs = 1.086533ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.730232ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.811674ms 
+
+*********************************************
+total proving time : 2.094618 sec
+total verification time: 0.257530 sec
+*********************************************
+
+Proving 2nd residual connections' 2nd activation (MAX_INSTANCES=4)
+Running table4 evaluations...
+
+Starting evaluations for activation: gelu
+# Activation Functions (gelu): 4
+ZIP - Total number of R1CS constraints: 22354
+ZIP - Total number of PlonK constraints: 64611
+Proving time: 1.584 sec
+Verification time: 0.003 sec
+Proof size: 616 bytes
+Proof verified successfully using PLONK with float library!
+
+gelu Coefficients lookup run 1/4
+time to load powers = 7.605943ms
+Time to setup multi openings of table size 128 = 8.165657ms
+Time to load openings = 502.863µs
+Time to generate commitment table = 988.265µs
+positions = [20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+Time to generate inputs = 3.562645ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 114.995558ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 32.556401ms 
+
+gelu Intervals lookup run 1/4
+time to load powers = 8.011865ms
+Time to setup multi openings of table size 8 = 8.551116ms
+Time to load openings = 444.056µs
+Time to generate commitment table = 817.362µs
+positions = [2, 3]
+Time to generate inputs = 1.142966ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.870616ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.708937ms 
+
+gelu Coefficients lookup run 2/4
+time to load powers = 8.032818ms
+Time to setup multi openings of table size 128 = 8.50062ms
+Time to load openings = 477.301µs
+Time to generate commitment table = 822.251µs
+positions = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Time to generate inputs = 3.6093ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.292526ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.901561ms 
+
+gelu Intervals lookup run 2/4
+time to load powers = 8.364358ms
+Time to setup multi openings of table size 8 = 8.886917ms
+Time to load openings = 429.319µs
+Time to generate commitment table = 907.808µs
+positions = [1, 2]
+Time to generate inputs = 1.083251ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.854063ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.630993ms 
+
+gelu Coefficients lookup run 3/4
+time to load powers = 7.986163ms
+Time to setup multi openings of table size 128 = 8.401375ms
+Time to load openings = 440.703µs
+Time to generate commitment table = 794.314µs
+positions = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Time to generate inputs = 3.627529ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.53418ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.806087ms 
+
+gelu Intervals lookup run 3/4
+time to load powers = 7.966957ms
+Time to setup multi openings of table size 8 = 8.503414ms
+Time to load openings = 415.7µs
+Time to generate commitment table = 816.733µs
+positions = [1, 2]
+Time to generate inputs = 1.091911ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.944299ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.671152ms 
+
+gelu Coefficients lookup run 4/4
+time to load powers = 7.900397ms
+Time to setup multi openings of table size 128 = 8.446633ms
+Time to load openings = 384.55µs
+Time to generate commitment table = 742.7µs
+positions = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Time to generate inputs = 3.615585ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.534529ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.846316ms 
+
+gelu Intervals lookup run 4/4
+time to load powers = 8.269792ms
+Time to setup multi openings of table size 8 = 8.790535ms
+Time to load openings = 312.963µs
+Time to generate commitment table = 779.857µs
+positions = [1, 2]
+Time to generate inputs = 1.090794ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 38.179737ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.613672ms 
+
+*********************************************
+total proving time : 2.197112 sec
+total verification time: 0.257801 sec
+*********************************************
+
+Proving 2nd activation (MAX_INSTANCES=4)
+Running table4 evaluations...
+
+Starting evaluations for activation: gelu
+# Activation Functions (gelu): 4
+ZIP - Total number of R1CS constraints: 22354
+ZIP - Total number of PlonK constraints: 64611
+Proving time: 1.443 sec
+Verification time: 0.004 sec
+Proof size: 616 bytes
+Proof verified successfully using PLONK with float library!
+
+gelu Coefficients lookup run 1/4
+time to load powers = 7.501669ms
+Time to setup multi openings of table size 128 = 7.93455ms
+Time to load openings = 364.646µs
+Time to generate commitment table = 715.672µs
+positions = [60, 61, 62, 63, 64, 65, 66, 67, 68, 69]
+Time to generate inputs = 3.600919ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.274787ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.927683ms 
+
+gelu Intervals lookup run 1/4
+time to load powers = 7.546297ms
+Time to setup multi openings of table size 8 = 7.960043ms
+Time to load openings = 299.902µs
+Time to generate commitment table = 664.268µs
+positions = [6, 7]
+Time to generate inputs = 1.103296ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.889753ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.467004ms 
+
+gelu Coefficients lookup run 2/4
+time to load powers = 7.928473ms
+Time to setup multi openings of table size 128 = 8.334257ms
+Time to load openings = 558.248µs
+Time to generate commitment table = 996.857µs
+positions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+Time to generate inputs = 3.609928ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 112.506735ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.702791ms 
+
+gelu Intervals lookup run 2/4
+time to load powers = 8.017104ms
+Time to setup multi openings of table size 8 = 8.420023ms
+Time to load openings = 449.224µs
+Time to generate commitment table = 826.93µs
+positions = [0, 1]
+Time to generate inputs = 1.112235ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 36.301473ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.587132ms 
+
+gelu Coefficients lookup run 3/4
+time to load powers = 8.060196ms
+Time to setup multi openings of table size 128 = 8.637022ms
+Time to load openings = 451.809µs
+Time to generate commitment table = 928.202µs
+positions = [40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+Time to generate inputs = 3.586321ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 115.63622ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 32.334792ms 
+
+gelu Intervals lookup run 3/4
+time to load powers = 7.610623ms
+Time to setup multi openings of table size 8 = 8.170127ms
+Time to load openings = 440.354µs
+Time to generate commitment table = 807.584µs
+positions = [4, 5]
+Time to generate inputs = 1.098337ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 37.990743ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.667451ms 
+
+gelu Coefficients lookup run 4/4
+time to load powers = 8.019059ms
+Time to setup multi openings of table size 128 = 8.484836ms
+Time to load openings = 423.243µs
+Time to generate commitment table = 810.518µs
+positions = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Time to generate inputs = 3.592886ms
+Time to evaluate 1 times 10 multi-openings of table size 128 = 114.421107ms 
+Time to verify 1 times 10 multi-openings of table size 128 = 31.169337ms 
+
+gelu Intervals lookup run 4/4
+time to load powers = 7.527161ms
+Time to setup multi openings of table size 8 = 7.983579ms
+Time to load openings = 305.699µs
+Time to generate commitment table = 660.706µs
+positions = [1, 2]
+Time to generate inputs = 1.098407ms
+Time to evaluate 1 times 2 multi-openings of table size 8 = 38.029925ms 
+Time to verify 1 times 2 multi-openings of table size 8 = 31.65027ms 
+
+*********************************************
+total proving time : 2.051479 sec
+total verification time: 0.257894 sec
+*********************************************
+
+
+===========================
+== Proving linear layers ==
+===========================
+[conv1] multiplications logged: 442368
+[conv1] additions       logged: 458752
+[pool1] multiplications logged: 4096
+[pool1] additions       logged: 16384
+[res1_conv1] multiplications logged: 589824
+[res1_conv1] additions       logged: 593920
+[res1_conv2] multiplications logged: 589824
+[res1_conv2] additions       logged: 593920
+[res2_conv1] multiplications logged: 589824
+[res2_conv1] additions       logged: 593920
+[res2_conv2] multiplications logged: 589824
+[res2_conv2] additions       logged: 593920
+[pool1] multiplications logged: 1024
+[pool1] additions       logged: 4096
+[fc1] multiplications   logged: 131072
+[fc1] additions         logged: 131200
+[fc2] multiplications   logged: 1280
+[fc2] additions         logged: 1290
+Total number of R1CS constraints in the circuit: 21292183
+Total number of R1CS constraints in the circuit: 21292183
+Total number of R1CS constraints in the circuit: 21292183
+Total number of R1CS constraints in the circuit: 21292183
+Total number of R1CS constraints in the circuit: 21292183
+Total number of R1CS constraints in the circuit: 21292183
+Total number of R1CS constraints in the circuit: 20979494
+Total number of R1CS constraints in the circuit: 1880825
+
+*********************************************
+total proving time for all linear layers : 10699.263000 sec
+total verification time for all linear layers: 2.938000 sec
+*********************************************
+
